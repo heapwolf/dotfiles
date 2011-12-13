@@ -1,0 +1,4 @@
+##
+## sourced files
+##
+. ~/.profile
