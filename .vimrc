@@ -12,4 +12,5 @@ set hidden
 set mouse=a
 syntax on
 map <Leader>d :NERDTreeToggle<CR>
+:setlocal spell spelllang=en_us
 colorscheme shady
