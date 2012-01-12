@@ -14,3 +14,6 @@ syntax on
 map <Leader>d :NERDTreeToggle<CR>
 :setlocal spell spelllang=en_us
 colorscheme shady
+
+vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
+nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
