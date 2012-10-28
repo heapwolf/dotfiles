@@ -2,18 +2,28 @@
 ##
 ## environment variables
 ##
-export PS1='\w$(__git_ps1 " (\033[1;30m%s\033[0m)")>'
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+#export PS1='\w$(__git_ps1 " (\033[1;30m%s\033[0m)")>'
+export PS1='\033[33m⚡\033[0m'
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:/Users/paolo/workroot/git/hij1nx/complete/example/:$PATH
 
 ##
 ## aliased commands
 ##
-alias ls="ls -paolgG"
+alias ls="ls -paolagG"
+alias pp="pbpaste"
+alias pc="pbcopy"
+alias grep="grep --color=auto"
+alias "cd.."="cd .."
+alias cls="clear"
+
+alias clock="tmux clock"
+alias c="tmux show-buffer | pc"
 
 ##
 ## sourced files
 ##
 source ~/.git-completion.sh
+
 
 ##
 ## custom functions

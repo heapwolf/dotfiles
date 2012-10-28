@@ -131,6 +131,9 @@ defaults write com.apple.iTunes disablePing -bool true
 defaults write com.apple.Mail DisableReplyAnimations -bool true
 defaults write com.apple.Mail DisableSendAnimations -bool true
 
+# Speed up expose animation
+defaults write com.apple.dock expose-animation-duration -float 0.1
+
 # Disable Resume system-wide
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 
@@ -139,6 +142,9 @@ defaults write com.apple.dashboard devmode -bool true
 
 # Reset Launchpad
 [ -e ~/Library/Application\ Support/Dock/*.db ] && rm ~/Library/Application\ Support/Dock/*.db
+
+# Disable Launchpad effects
+defaults write com.apple.dock springboard-show-duration -int 0
 
 # Show the ~/Library folder
 chflags nohidden ~/Library
