@@ -1,28 +1,19 @@
-"
-" ~ shady
-"
-"     a vim colorscheme, by cloudhead
-"
-"  To be used with the following syntax files:
-"
-"    JavaScript - <http://www.vim.org/scripts/script.php?script_id=1491>
-"    C          - <http://www.vim.org/scripts/script.php?script_id=234>
-"
-set background=dark
+
+set background=light
 hi clear
 
 if exists("syntax_on")
   syntax reset
 endif
 
-let colors_name = "shady"
+let colors_name = "google"
 
 " General colors
-hi Normal               ctermfg=NONE        ctermbg=NONE        cterm=NONE
-hi NonText              ctermfg=256         ctermbg=NONE        cterm=NONE
+hi Normal               ctermfg=black        ctermbg=white        cterm=NONE
+hi NonText              ctermfg=white          ctermbg=NONE        cterm=NONE
 
 hi Cursor               ctermfg=black       ctermbg=white       cterm=reverse
-hi LineNr               ctermfg=238         ctermbg=black       cterm=NONE
+hi LineNr               ctermfg=red         ctermbg=white       cterm=NONE
 
 hi VertSplit            ctermfg=238         ctermbg=NONE        cterm=NONE
 hi StatusLine           ctermfg=238         ctermbg=NONE        cterm=NONE
@@ -30,7 +21,7 @@ hi StatusLineNC         ctermfg=236         ctermbg=NONE        cterm=NONE
 
 hi Folded               ctermfg=NONE        ctermbg=NONE        cterm=NONE
 hi Title                ctermfg=NONE        ctermbg=NONE        cterm=BOLD
-hi Visual               ctermfg=NONE        ctermbg=52          cterm=NONE
+hi Visual               ctermfg=white        ctermbg=red         cterm=NONE
 
 hi SpecialKey           ctermfg=NONE        ctermbg=NONE        cterm=NONE
 
@@ -38,10 +29,13 @@ hi SpecialKey           ctermfg=NONE        ctermbg=NONE        cterm=NONE
 "hi PmenuSbar            ctermfg=black       ctermbg=white       cterm=NONE
 "hi Pmenu                ctermfg=20           ctermbg=white       cterm=NONE
 
-hi Pmenu        ctermfg=0 ctermbg=0
+hi Pmenu        ctermfg=0 ctermbg=0 cterm=NONE
 hi PmenuSel     ctermfg=4 ctermbg=20
 hi PmenuSbar    ctermfg=2 ctermbg=22
 hi PmenuThumb   ctermfg=6 ctermbg=66
+
+hi Directory     ctermfg=red  ctermbg=NONE cterm=NONE
+hi CursorLine    ctermfg=red  ctermbg=grey cterm=NONE
 
 
 hi Error                ctermfg=NONE        ctermbg=red         cterm=NONE
@@ -54,9 +48,9 @@ hi ModeMsg              ctermfg=238         ctermbg=NONE        cterm=bold
 if version >= 700 " Vim 7.x specific colors
   hi CursorLine         ctermfg=NONE        ctermbg=NONE        cterm=NONE
   hi CursorColumn       ctermfg=NONE        ctermbg=NONE        cterm=BOLD
-  hi TabLine            ctermfg=238         ctermbg=NONE        cterm=NONE
-  hi TabLineFill        ctermfg=238         ctermbg=NONE        cterm=NONE
-  hi TabLineSel         ctermfg=NONE        ctermbg=NONE        cterm=BOLD
+  hi TabLine            ctermfg=238         ctermbg=grey        cterm=NONE
+  hi TabLineFill        ctermfg=238         ctermbg=grey        cterm=NONE
+  hi TabLineSel         ctermfg=grey        ctermbg=NONE        cterm=BOLD
   hi MatchParen         ctermfg=NONE        ctermbg=NONE        cterm=BOLD
   hi Pmenu              ctermfg=NONE        ctermbg=NONE        cterm=NONE
   hi PmenuSel           ctermfg=black       ctermbg=yellow      cterm=NONE
@@ -66,11 +60,11 @@ endif
 " Syntax highlighting
 hi Comment              ctermfg=238        ctermbg=NONE        cterm=NONE
 hi String               ctermfg=245        ctermbg=NONE        cterm=NONE
-hi Number               ctermfg=193        ctermbg=NONE        cterm=NONE
-hi Character            ctermfg=red        ctermbg=NONE        cterm=NONE
+hi Number               ctermfg=blue       ctermbg=NONE        cterm=NONE
+hi Character            ctermfg=blue       ctermbg=NONE        cterm=NONE
 hi PreProc              ctermfg=194        ctermbg=NONE        cterm=NONE
 
-hi Keyword              ctermfg=white       ctermbg=NONE       cterm=BOLD
+hi Keyword              ctermfg=brown       ctermbg=NONE       cterm=BOLD
 hi Statement            ctermfg=white       ctermbg=NONE       cterm=BOLD
 hi Conditional          ctermfg=white       ctermbg=NONE       cterm=BOLD
 
