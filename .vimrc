@@ -1,108 +1,125 @@
+"
+" VIM SETTINGS
+" ------------
+"
 set shell=/bin/bash
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:\ 
 set list
 set number
 set go-=T
 set hidden
 set mouse=a
 set spelllang=en_us
-syntax on
-
 set tabstop=2 shiftwidth=2 expandtab
-
 set smarttab
 set autoindent
-
 set t_Co=256
-colors custom
-
 set fillchars+=vert:╎
 set backupdir=$TEMP,$TMP,.
-
 set laststatus=2
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'bubblegum'
+set backspace=2 " make backspace work like most other apps
+set nocompatible " be iMproved, required
 
-highlight clear SignColumn
-
-map <Leader>d :call ToggleVExplorer()<CR>
-map <Leader>/ :Ag<SPACE>
-"nmap <Leader>s :set spell!<CR>
-
-autocmd BufNewFile,BufRead *.json set ft=javascript
-
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" 
-" set the runtime path to include Vundle and initialize
 "
+" ALTERNATIVE KEYS
+" ----------------
+"
+map <Leader>d :EasyTreeToggle<CR>
+map <Leader>f :TagbarToggle<CR>
+map <C-c> :Buffers<CR>
+map <C-f> :Lines<CR>
+map <Tab> <C-W>
+
+" common typos
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
+:command Qa Q
+
+"
+" CUSTOM FUNCTIONS
+" ----------------
+"
+
+" Find all my TODO's
+function! s:line_handler(l)
+  let keys = split(a:l, ':')
+  let n = bufnr('%')
+  exec 'buf '.n
+  exec keys[0]
+  normal! ^zz
+endfunction
+
+command! Todo call fzf#run({
+  \ 'source': 'cat '.expand("%:p").' | grep -n "TODO"',
+  \ 'down': '25%',
+  \ 'options': '--extended --nth=3..',
+  \ 'sink': function('<sid>line_handler')
+  \})
+
+" Most Recently used
+command! Open call fzf#run({
+  \  'source':  v:oldfiles,
+  \  'sink':    'e',
+  \  'options': '-m -x +s',
+  \  'down':    '40%'})
+
+"
+" PLUGINS
+" -------
+"
+
+" Vundle
 set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'bling/vim-airline'
 Plugin 'fatih/vim-go'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'troydm/easytree.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'junegunn/fzf.vim'
+Plugin 'marijnh/tern_for_vim'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'digitaltoad/vim-jade'
-Bundle 'rking/ag.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
+Bundle 'wavded/vim-stylus'
 
 call vundle#end()
+
+" Plug
+call plug#begin('~/.vim/plugged')
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'https://github.com/scrooloose/syntastic.git'
+call plug#end()
+
+"
+" OTHER SETTINGS
+" --------------
+"
+colors custom
+syntax on
+highlight clear SignColumn
+
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
+filetype off                  " required
 filetype plugin indent on    " required
 
-"
-" Explorer
-"
+let g:easytree_show_hidden_files=1
+
 highlight NonText ctermfg=bg guifg=bg
-let g:netrw_banner = 0 " don't show the help banner
-let g:netrw_liststyle = 3 " show as a tree
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-let g:gitgutter_max_signs = 10000
+let g:gitgutter_max_signs=10000
 
-function! ToggleVExplorer()
-  if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
-  else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
-  endif
-endfunction
-
-" 
-" Silver Searcher
-"
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-set backspace=2 " make backspace work like most other apps
 
 "
-" Stuff for YouCompleteMe
+" COMPLETION
+" ----------
 " https://valloric.github.io/YouCompleteMe/
 "
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
@@ -111,12 +128,19 @@ autocmd FileType javascript setlocal omnifunc=tern#Complete
 set completeopt-=preview
 
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+set dir=~/.vimswap//,/var/tmp//,/tmp//,.
 
 "
-" common typos
+" SYNTAX
+" ------
 "
-:command WQ wq
-:command Wq wq
-:command W w
-:command Q q
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'bubblegum'
+
+" Javascript
+let g:syntastic_javascript_checkers = ['standard']
