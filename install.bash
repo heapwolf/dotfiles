@@ -18,7 +18,7 @@ if [ `uname` == 'Darwin' ]; then
     youtube-dl # get songs before they vanish
   )
 
-  args=("${common[@]}" "${mac}")
+  args=("${common[@]}" "${mac[@]}")
   brew install ${args[@]}
 
 else
@@ -31,7 +31,7 @@ else
     lldb-3.8 # better debugging
   )
 
-  args=("${common[@]}" "${linux}")
+  args=("${common[@]}" "${linux[@]}")
 
   sudo apt-get update
   sudo apt-get install ${args[@]}
