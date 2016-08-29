@@ -22,7 +22,7 @@ CSAHi IncSearch term=reverse cterm=reverse ctermbg=242 ctermfg=16
 CSAHi Search term=reverse cterm=NONE ctermbg=220 ctermfg=233
 CSAHi MoreMsg term=bold cterm=NONE ctermbg=bg ctermfg=242
 CSAHi ModeMsg term=bold cterm=bold ctermbg=bg ctermfg=fg
-CSAHi LineNr term=underline cterm=NONE ctermbg=235 ctermfg=241
+CSAHi LineNr term=underline cterm=NONE ctermbg=235 ctermfg=238
 CSAHi Keyword term=NONE cterm=NONE ctermbg=bg ctermfg=242
 CSAHi RubySymbol term=NONE cterm=NONE ctermbg=bg ctermfg=242
 CSAHi IndentGuidesOdd term=NONE cterm=NONE ctermbg=bg ctermfg=fg
@@ -41,8 +41,8 @@ CSAHi Function term=NONE cterm=NONE ctermbg=bg ctermfg=242
 CSAHi Delimiter term=NONE cterm=NONE ctermbg=bg ctermfg=153
 CSAHi CursorLineNr term=bold cterm=bold ctermbg=235 ctermfg=242
 CSAHi Question term=NONE cterm=NONE ctermbg=bg ctermfg=242
-CSAHi StatusLine term=reverse cterm=bold ctermbg=235 ctermfg=242
-CSAHi StatusLineNC term=reverse cterm=NONE ctermbg=235 ctermfg=231
+CSAHi StatusLine term=reverse cterm=bold ctermbg=235 ctermfg=238
+CSAHi StatusLineNC term=reverse cterm=NONE ctermbg=235 ctermfg=235
 CSAHi VertSplit term=reverse cterm=NONE ctermbg=235 ctermfg=235
 CSAHi Title term=bold cterm=bold ctermbg=bg ctermfg=242
 CSAHi Visual term=reverse cterm=NONE ctermbg=189 ctermfg=16
@@ -53,7 +53,7 @@ CSAHi CursorLine term=underline cterm=NONE ctermbg=235 ctermfg=fg
 CSAHi ColorColumn term=reverse cterm=NONE ctermbg=235 ctermfg=fg
 CSAHi Cursor term=NONE cterm=NONE ctermbg=231 ctermfg=59
 CSAHi lCursor term=NONE cterm=NONE ctermbg=231 ctermfg=59
-CSAHi MatchParen term=reverse cterm=bold ctermbg=30 ctermfg=fg
+CSAHi MatchParen term=NONE cterm=NONE ctermbg=220 ctermfg=232
 CSAHi Comment term=bold cterm=NONE ctermbg=bg ctermfg=39
 CSAHi Constant term=underline cterm=NONE ctermbg=bg ctermfg=242
 CSAHi Special term=bold cterm=NONE ctermbg=bg ctermfg=214
@@ -68,7 +68,10 @@ CSAHi DiffText term=reverse cterm=bold ctermbg=196 ctermfg=fg
 CSAHi SignColumn term=NONE cterm=NONE ctermbg=250 ctermfg=51
 CSAHi Conceal term=NONE cterm=NONE ctermbg=248 ctermfg=252
 CSAHi SpellBad term=reverse cterm=undercurl ctermbg=bg ctermfg=196
-CSAHi SpellCap term=reverse cterm=undercurl ctermbg=bg ctermfg=21
+CSAHi SpellCap term=reverse cterm=undercurl ctermbg=bg ctermfg=202
 CSAHi NonText ctermbg=bg ctermfg=bg
+
+CSAHi SyntasticErrorSign term=NONE cterm=NONE ctermbg=235 ctermfg=196
+CSAHi SyntasticWarningSign term=NONE cterm=NONE ctermbg=235 ctermfg=202
 
 delcommand CSAHi
