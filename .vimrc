@@ -8,7 +8,7 @@ set tabstop=2 shiftwidth=2 expandtab
 set smarttab
 set autoindent
 set autoread
-set number                       " show line numbers
+"set number                      " dont show line numbers, we have status!
 set mouse=a                      " enable mouse support
 set backspace=indent,eol,start   " regular backspace behavior
 set hlsearch                     " highlight search matches
@@ -23,6 +23,27 @@ set noswapfile                   " more trouble than they are worth
 set foldtext=SimpleFold()
 function SimpleFold()
   return ''
+endfunction
+
+"
+" STATUS LINE
+" -----------
+"
+set statusline=[%.50F]\ %=%c:%l/%L
+
+"
+" PASTE
+" -----
+"
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
 endfunction
 
 "
@@ -52,38 +73,56 @@ call vundle#begin()
 " macOS
 "
 Plugin 'gmarik/Vundle.vim'
-"Plugin 'bling/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdtree.git'
-"Plugin 'pangloss/vim-javascript'
 Plugin 'ryanoasis/vim-devicons'
-"Plugin 'troydm/easytree.vim'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/syntastic'
+
 Bundle 'digitaltoad/vim-jade'
 Bundle 'wavded/vim-stylus'
-"Bundle 'edkolev/promptline.vim'
-"Bundle 'kien/ctrlp.vim'
+Bundle 'kien/ctrlp.vim'
 
-"Bundle 'edkolev/tmuxline.vim'
-
+"Plugin 'pangloss/vim-javascript'
+"Plugin 'bling/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'troydm/easytree.vim'
 "Plugin 'fatih/vim-go'
 "Plugin 'junegunn/fzf.vim'
-
-"Plugin 'rust-lang/rust.vim'
-"Plugin 'ervandew/supertab'
-"Plugin 'rking/ag.vim'
-
-"Bundle 'marijnh/tern_for_vim'
-"Bundle 'mattn/webapi-vim'
-"Bundle 'mattn/gist-vim'
 "Plugin 'troydm/easytree.vim'
 "Plugin 'majutsushi/tagbar'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'marijnh/tern_for_vim'
+"Plugin 'rust-lang/rust.vim'
+"Plugin 'ervandew/supertab'
+"Plugin 'rking/ag.vim'
+
+"Bundle 'edkolev/promptline.vim'
+"Bundle 'edkolev/tmuxline.vim'
+"Bundle 'marijnh/tern_for_vim'
+"Bundle 'mattn/webapi-vim'
+"Bundle 'mattn/gist-vim'
 "Bundle 'terryma/vim-multiple-cursors'
 
 call vundle#end()
+
+"
+" Search
+"
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+let g:ackprg = 'ag --nogroup --nocolor --column'
+cabbrev s Ack
 
 "
 " Plug
@@ -126,9 +165,9 @@ set background=dark
 syntax on
 colors custom
 
-"highlight clear SignColumn
-"let &colorcolumn="80,".join(range(128,999),",")
-"set synmaxcol=128
+highlight clear SignColumn
+let &colorcolumn="80,".join(range(128,999),",")
+set synmaxcol=128
 
 "
 " Airline (slow as fuck)
@@ -142,7 +181,9 @@ colors custom
 "
 " Standard Javascript
 "
-"let g:syntastic_javascript_checkers = ['standard']
+let g:syntastic_javascript_checkers = ['standard']
+autocmd bufwritepost *.js silent !standard-format -w %
+set autoread
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
