@@ -19,7 +19,7 @@ set foldnestmax=2                " deepest fold is 10 levels
 set nofoldenable                 " dont fold by default
 set foldlevel=1                  " this is just what i use
 set noswapfile                   " more trouble than they are worth
-
+ 
 set foldtext=SimpleFold()
 function SimpleFold()
   return ''
@@ -29,7 +29,9 @@ endfunction
 " STATUS LINE
 " -----------
 "
-set statusline=[%.50F]\ %=%c:%l/%L
+set statusline=[%.50F]\      " limit the full path and enclose it
+set statusline+=%=%1*%m%0*\  " indicate if the file has been modified
+set statusline+=%c:%l/%L     " column:line/total lines
 
 "
 " PASTE
@@ -79,6 +81,7 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'elzr/vim-json'
 
 Bundle 'digitaltoad/vim-jade'
 Bundle 'wavded/vim-stylus'
@@ -95,7 +98,7 @@ Bundle 'kien/ctrlp.vim'
 "Plugin 'Valloric/YouCompleteMe'
 "Plugin 'marijnh/tern_for_vim'
 "Plugin 'rust-lang/rust.vim'
-"Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 "Plugin 'rking/ag.vim'
 
 "Bundle 'edkolev/promptline.vim'
@@ -139,6 +142,11 @@ cabbrev s Ack
 "
 "highlight NonText ctermfg=120
 let g:gitgutter_max_signs=10000
+let g:gitgutter_sign_added = '│'
+let g:gitgutter_sign_modified = '│'
+let g:gitgutter_sign_removed = '│'
+let g:gitgutter_sign_removed_first_line = '│'
+let g:gitgutter_sign_modified_removed = '│'
 let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:DevIconsEnableFoldersOpenClose = 1
 
@@ -170,6 +178,14 @@ let &colorcolumn="80,".join(range(128,999),",")
 set synmaxcol=128
 
 "
+" Promptline generator
+"
+"let g:promptline_preset = {
+"  \'b' : [ promptline#slices#cwd() ],
+"  \'c' : [ promptline#slices#vcs_branch(), promptline#slices#jobs() ],
+"  \'warn' : [ promptline#slices#last_exit_code(), promptline#slices#battery() ]}
+
+"
 " Airline (slow as fuck)
 "
 "let g:airline_theme = 'solarized'
@@ -182,7 +198,7 @@ set synmaxcol=128
 " Standard Javascript
 "
 let g:syntastic_javascript_checkers = ['standard']
-autocmd bufwritepost *.js silent !standard-format -w %
+autocmd bufwritepost *.js silent !standard --fix index.js % &>/dev/null
 set autoread
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
@@ -192,8 +208,9 @@ set autoread
 "
 " JSON
 "
-autocmd BufNewFile,BufRead *.json set ft=javascript
-filetype plugin indent on    " required
+"autocmd BufNewFile,BufRead *.json set ft=javascript
+"filetype plugin indent on    " required
+let g:vim_json_syntax_conceal = 0
 
 "
 " Nerdtree
@@ -213,3 +230,8 @@ hi def link NERDTreeGitStatusUntracked 39
 hi def link NERDTreeGitStatusDirDirty 39
 hi def link NERDTreeGitStatusDirClean 39
 
+"
+" Ctrlp
+"
+map <c-l> <Esc>:CtrlPBuffer<CR>
+map <c-f> :Ack 
