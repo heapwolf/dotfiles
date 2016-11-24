@@ -1,3 +1,6 @@
+"
+" custom.vim
+"
 hi clear
 syntax reset
 
@@ -54,7 +57,7 @@ CSAHi ColorColumn term=reverse cterm=NONE ctermbg=235 ctermfg=fg
 CSAHi Cursor term=NONE cterm=NONE ctermbg=231 ctermfg=59
 CSAHi lCursor term=NONE cterm=NONE ctermbg=231 ctermfg=59
 CSAHi MatchParen term=NONE cterm=NONE ctermbg=220 ctermfg=232
-CSAHi Comment term=bold cterm=NONE ctermbg=bg ctermfg=39
+CSAHi Comment term=bold cterm=NONE ctermbg=bg ctermfg=110
 CSAHi Constant term=underline cterm=NONE ctermbg=bg ctermfg=242
 CSAHi Special term=bold cterm=NONE ctermbg=bg ctermfg=214
 CSAHi Identifier term=underline cterm=NONE ctermbg=bg ctermfg=242
@@ -73,5 +76,23 @@ CSAHi NonText ctermbg=bg ctermfg=bg
 
 CSAHi SyntasticErrorSign term=NONE cterm=NONE ctermbg=235 ctermfg=196
 CSAHi SyntasticWarningSign term=NONE cterm=NONE ctermbg=235 ctermfg=202
+
+CSAHi CtrlPStats term=NONE cterm=NONE ctermbg=235 ctermfg=235
+CSAHi CtrlPBufName term=NONE cterm=NONE ctermbg=8 ctermfg=235
+
+CSAHi NERDTreeOpenable ctermfg=236
+CSAHi NERDTreeClosable ctermfg=236
+
+"CSAHi NERDTreeGitStatusModified Tag
+"CSAHi NERDTreeGitStatusStaged Tag
+"CSAHi NERDTreeGitStatusRenamed Tag
+"CSAHi NERDTreeGitStatusUnmerged Tag
+"CSAHi NERDTreeGitStatusUntracked Tag
+"CSAHi NERDTreeGitStatusAdded Tag
+"CSAHi NERDTreeGitStatusRenamed 67
+"CSAHi NERDTreeGitStatusDeleted 67
+"CSAHi NERDTreeGitStatusUnknown Tag
+"CSAHi NERDTreeGitStatusDirDirty 67
+"CSAHi NERDTreeGitStatusDirClean Tag
 
 delcommand CSAHi
