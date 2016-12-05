@@ -44,7 +44,7 @@ fi
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # clone the dot files into the home directory
-git clone https://github.com/0x00a/dotfiles.git ~
+git clone https://github.com/0x00a/dotfiles.git ~/dotfiles
 
 vim +PluginInstall +qall
 
