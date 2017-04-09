@@ -2,6 +2,7 @@
 common=(
   vim # editor
   cmake # x-platform make
+  tmux # terminal multiplexer
   jq # a bad-ass json tool
   tig # a tui for git
   htop # a better top
@@ -13,18 +14,21 @@ common=(
 )
 
 if [ `uname` == 'Darwin' ]; then
-
+  brew tap mattmezza/mannaggia
   mac=(
-    youtube-dl # get songs before they vanish
+    youtube-dl # get songs before they vanishi
+    macvim --override-system-vim
+    mannaggia
   )
 
   args=("${common[@]}" "${mac[@]}")
   brew install ${args[@]}
 
+  echo "function gi() { curl -L -s https://www.gitignore.io/api/\$@ ;}" >> ~/.zshrc && source ~/.zshrc
+  
 else
 
   linux=(
-    tmux # terminal multiplexing
     lnav # log navigation
     build-essential # c/c++, make, etc
     clang-3.8 # better compiling
@@ -41,10 +45,12 @@ else
 
 fi
 
+curl -o /usr/local/bin/mit https://raw.githubusercontent.com/mattmezza/mit-license-generator/master/mit && chmod a+x /usr/local/bin/mit
+
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 # clone the dot files into the home directory
-git clone https://github.com/0x00a/dotfiles.git ~/dotfiles
+git clone https://github.com/mattmezza/dotfiles.git ~/dotfiles
 
 vim +PluginInstall +qall
 
