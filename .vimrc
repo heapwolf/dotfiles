@@ -1,8 +1,8 @@
 
 "              __  __
-"  | / / /\// /_/ /
+"  | / / /\ᐱ  /_/ /
 " .|/ / /  / / \ /__
-" 
+"
 
 "
 " GENERAL
@@ -22,6 +22,8 @@ set hidden                             " allow unsaved buffers in background
 set laststatus=2                       " show the status line
 set nowrap                             " dont wrap long lines
 set hlsearch                           " highlight search matches
+set autoread                           " reload when background changes occur
+"set clipboard=unnamed                  " copy from vim to your mac pasteboard
 
 "
 " WHITESPACE & SPECIAL CHARACTERS
@@ -105,14 +107,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'w0rp/ale'
 Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'elzr/vim-json'
-Plugin 'ervandew/supertab'
-
-Bundle 'digitaltoad/vim-jade'
-Bundle 'wavded/vim-stylus'
-Bundle 'kien/ctrlp.vim'
 
 "
 " RETIRED PLUGINS AND BUNDLES
@@ -132,7 +128,19 @@ Bundle 'kien/ctrlp.vim'
 "Plugin 'marijnh/tern_for_vim'
 "Plugin 'rust-lang/rust.vim'
 "Plugin 'rking/ag.vim'
+"Plugin 'scrooloose/syntastic'
+"Plugin 'elzr/vim-json'
+"Plugin 'ervandew/supertab'
+"Plugin 'ntpeters/vim-better-whitespace'
+"Plugin 'yuttie/comfortable-motion.vim'
+"Plugin 'dart-lang/dart-vim-plugin'
 
+"Bundle 'digitaltoad/vim-jade'
+"Bundle 'wavded/vim-stylus'
+"Bundle 'kien/ctrlp.vim'
+"Bundle '0x00a/vim-mineral'
+"Bundle 'toyamarinyon/vim-swift'
+"Bundle 'junegunn/limelight.vim'
 "Bundle 'edkolev/promptline.vim'
 "Bundle 'edkolev/tmuxline.vim'
 "Bundle 'marijnh/tern_for_vim'
@@ -171,6 +179,10 @@ let g:NERDTreeUpdateOnWrite = 1        " Update NERDTree on any saves
 autocmd vimenter * NERDTree            " Open NERDTree right away
 let NERDTreeMinimalUI = 1              " But with as few features as possible
 "let NERDTreeQuitOnOpen=1              " Quit after opening a file
+let g:NERDTreeHighlightCursorline = 0  " Makes nerdtree way faster
+
+autocmd FileType nerdtree setlocal nocursorline
+let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]']
 
 "
 " GIT
@@ -205,29 +217,39 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 " COLORS & SYNTAX
 " ---------------
 "
-set background=dark                    " Set background 
+set background=dark                    " Set background
 syntax on                              " Syntax highlighting please
-"colors custom                          " A custom dark theme
-colors winter                          " A custom light theme
+colors transparent-gray                " A custom light theme
 
-set synmaxcol=128                      " Stop highlighting at 128 columns
-let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
+"set synmaxcol=128                      " Stop highlighting at 128 columns
+"let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
 
 "
 " JAVASCRIPT
 " ----------
 "
-let g:syntastic_javascript_checkers = ['standard']
-autocmd bufwritepost *.js silent !standard --fix index.js % &>/dev/null
+"autocmd bufwritepost *.js silent !standard --fix %
+"set autoread
+
+let g:ale_fixers = {'javascript': ['standard']}
+let g:ale_linters = {'javascript': ['standard']}
+let g:ale_fix_on_save = 1
+let g:ale_open_list = 1
+
+"let g:syntastic_javascript_checkers = ['standard']
+"autocmd bufwritepost *.js silent !standard --fix index.js % &>/dev/null
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
 
-"
-" JSON
-"
-"autocmd BufNewFile,BufRead *.json set ft=javascript
-"filetype plugin indent on    " required
-let g:vim_json_syntax_conceal = 0
+set fcs=vert:│
 
+"
+" PERF
+" ----
+"
+augroup vimrc
+ autocmd!
+ autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
+augroup END
