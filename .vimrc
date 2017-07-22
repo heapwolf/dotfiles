@@ -7,11 +7,10 @@
 "
 " GENERAL
 " -------
-" Various behaviors that I like or have tried
 "
 
-"set autoread                          " check for changes automatically
-"set number                            " no line numbers, statusbar is enough
+set autoread                           " check for changes automatically
+au CursorHold * checktime              " reload the changes once idle
 
 set backspace=indent,eol,start         " normal backspace behavior
 set t_Co=256                           " ensure 256 colors
@@ -23,7 +22,8 @@ set laststatus=2                       " show the status line
 set nowrap                             " dont wrap long lines
 set hlsearch                           " highlight search matches
 set autoread                           " reload when background changes occur
-"set clipboard=unnamed                  " copy from vim to your mac pasteboard
+"set clipboard=unnamed                 " copy from vim to your mac pasteboard
+"set number                            " no line numbers, statusbar is enough
 
 "
 " WHITESPACE & SPECIAL CHARACTERS
@@ -48,7 +48,7 @@ set foldlevel=1                        " this is just what i use
 
 set foldtext=SimpleFold()
 function SimpleFold()
-  return ''
+  return '+'
 endfunction
 
 "
@@ -110,6 +110,9 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'w0rp/ale'
 Plugin 'mhinz/vim-grepper'
 
+Bundle 'wavded/vim-stylus'
+Bundle 'digitaltoad/vim-pug'
+
 "
 " RETIRED PLUGINS AND BUNDLES
 " ---------------------------
@@ -135,8 +138,6 @@ Plugin 'mhinz/vim-grepper'
 "Plugin 'yuttie/comfortable-motion.vim'
 "Plugin 'dart-lang/dart-vim-plugin'
 
-"Bundle 'digitaltoad/vim-jade'
-"Bundle 'wavded/vim-stylus'
 "Bundle 'kien/ctrlp.vim'
 "Bundle '0x00a/vim-mineral'
 "Bundle 'toyamarinyon/vim-swift'
@@ -155,11 +156,11 @@ call vundle#end()
 " ------
 "
 let g:grepper = {
-    \ 'tools': ['sift', 'git'],
-    \ 'sift': {
-    \   'grepprg':    'sift $* . --line-number',
-    \   'grepformat': '%f:%l:%m'
-    \ }}
+  \ 'tools': ['sift', 'git'],
+  \ 'sift': {
+  \   'grepprg':    'sift $* . --line-number',
+  \   'grepformat': '%f:%l:%m'
+  \ }}
 
 "
 " NERDTREE
@@ -173,7 +174,7 @@ let NERDTreeMinimalUI = 1              " But with as few features as possible
 let g:NERDTreeHighlightCursorline = 0  " Makes nerdtree way faster
 
 "autocmd FileType nerdtree setlocal nocursorline
-"let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]']
+let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]'] " ignore node_modules (except src/node_modules)
 
 "
 " GIT
@@ -210,7 +211,13 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 "
 set background=dark                    " Set background
 syntax on                              " Syntax highlighting please
-colors transparent-gray                " A custom light theme
+
+if !empty($VIM_COLOR)
+  colorscheme $VIM_COLOR
+else
+  colors transparent-gray                " A custom light theme
+endif
+
 
 "set synmaxcol=128                      " Stop highlighting at 128 columns
 "let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
@@ -223,9 +230,14 @@ colors transparent-gray                " A custom light theme
 "set autoread
 
 "let g:ale_fixers = {'javascript': ['standard']}
-let g:ale_linters = {'javascript': ['standard']}
 let g:ale_fix_on_save = 1
 let g:ale_open_list = 1
+let g:ale_lint_delay = 1500
+let g:ale_linters = {
+  \ 'javascript': ['standard'],
+  \ 'stylus': ['stylint'],
+  \ 'pug': ['pug-lint']
+  \}
 
 "let g:syntastic_javascript_checkers = ['standard']
 "autocmd bufwritepost *.js silent !standard --fix index.js % &>/dev/null
