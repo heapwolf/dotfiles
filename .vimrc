@@ -52,15 +52,6 @@ function SimpleFold()
 endfunction
 
 "
-" STATUS LINE
-" -----------
-" Airline et al. are too noisy for me, here's my take
-"
-let &stl="%.50F"
-let &stl.="%=%1*%{&modified ? ' + ' : ''}%0* "
-let &stl.="%c:%l/%L "
-
-"
 " PASTE
 " -----
 " Fixes issue where paste conflicts with auto indent
@@ -109,6 +100,7 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'w0rp/ale'
 Plugin 'mhinz/vim-grepper'
+Plugin 'itchyny/vim-gitbranch'
 
 Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-pug'
@@ -150,6 +142,16 @@ Bundle 'digitaltoad/vim-pug'
 "Bundle 'terryma/vim-multiple-cursors'
 
 call vundle#end()
+
+"
+" STATUS LINE
+" -----------
+" Airline et al. are too noisy for me, here's my take
+"
+let &stl="%.50F"
+let &stl.="%=%1*%{&modified ? ' + ' : ''}%0* "
+let &stl.="%l:%c/%L "
+let &stl.="│ %{gitbranch#name()} "
 
 "
 " SEARCH
