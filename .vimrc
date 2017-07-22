@@ -1,7 +1,7 @@
 
-"              __  __
-"  | / / /\ᐱ  /_/ /
-" .|/ / /  / / \ /__
+"               __  __
+"   | / / /\ᐱ  /_/ /
+" o |/ / /  / / \ /__
 "
 
 "
@@ -83,7 +83,7 @@ endfunction
 "
 
 map <c-l> <Esc>:CtrlPBuffer<CR>        " Ctrl+l to switch buffers
-map <c-f> :Ack                         " Ctrl+f to search
+map <c-f> :Grepper<CR>                 " Ctrl+f to search
 map <Tab> <C-W>w                       " Tab to navigate windows
 
 " common typos
@@ -108,7 +108,7 @@ Plugin 'scrooloose/nerdtree.git'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'w0rp/ale'
-Plugin 'mileszs/ack.vim'
+Plugin 'mhinz/vim-grepper'
 
 "
 " RETIRED PLUGINS AND BUNDLES
@@ -153,22 +153,13 @@ call vundle#end()
 "
 " SEARCH
 " ------
-" This is basically "search in project" for vim using silver searcher
 "
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-let g:ackprg = 'ag --nogroup --nocolor --column'
-
-cabbrev s Ack
+let g:grepper = {
+    \ 'tools': ['sift', 'git'],
+    \ 'sift': {
+    \   'grepprg':    'sift $* . --line-number',
+    \   'grepformat': '%f:%l:%m'
+    \ }}
 
 "
 " NERDTREE
@@ -181,8 +172,8 @@ let NERDTreeMinimalUI = 1              " But with as few features as possible
 "let NERDTreeQuitOnOpen=1              " Quit after opening a file
 let g:NERDTreeHighlightCursorline = 0  " Makes nerdtree way faster
 
-autocmd FileType nerdtree setlocal nocursorline
-let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]']
+"autocmd FileType nerdtree setlocal nocursorline
+"let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]']
 
 "
 " GIT
@@ -231,7 +222,7 @@ colors transparent-gray                " A custom light theme
 "autocmd bufwritepost *.js silent !standard --fix %
 "set autoread
 
-let g:ale_fixers = {'javascript': ['standard']}
+"let g:ale_fixers = {'javascript': ['standard']}
 let g:ale_linters = {'javascript': ['standard']}
 let g:ale_fix_on_save = 1
 let g:ale_open_list = 1
@@ -253,3 +244,7 @@ augroup vimrc
  autocmd!
  autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
 augroup END
+
+set nocursorline
+set nocursorcolumn
+"set lazyredraw
