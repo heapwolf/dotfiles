@@ -12,16 +12,15 @@
 set autoread                           " check for changes automatically
 au CursorHold * checktime              " reload the changes once idle
 
-set backspace=indent,eol,start         " normal backspace behavior
-set t_Co=256                           " ensure 256 colors
 set mouse=a                            " enable mouse support
+set backspace=indent,eol,start         " normal backspace behavior
+"set t_Co=256                           " ensure 256 colors
 set spelllang=en_us                    " english language spelling
 set noswapfile                         " more trouble than they are worth
 set hidden                             " allow unsaved buffers in background
 set laststatus=2                       " show the status line
 set nowrap                             " dont wrap long lines
 set hlsearch                           " highlight search matches
-set autoread                           " reload when background changes occur
 "set clipboard=unnamed                 " copy from vim to your mac pasteboard
 "set number                            " no line numbers, statusbar is enough
 
@@ -41,15 +40,20 @@ set fillchars=fold:\                   " fill the foldline with whitespace
 " ----------------
 " Sometimes you need to hide some code
 "
-set foldmethod=indent                  " fold based on indent
-set foldnestmax=2                      " deepest fold is 2 levels
-set nofoldenable                       " dont fold by default
-set foldlevel=1                        " this is just what i use
+
+set foldmethod=indent                   " fold based on indent
+set nofoldenable                        " dont fold by default
+"set foldnestmax=1                       " deepest fold
+"set foldlevelstart=1
+"set foldlevel=1                         " this is just what i use
 
 set foldtext=SimpleFold()
 function SimpleFold()
-  return '+'
+  let lines_count = v:foldend - v:foldstart + 1
+  return '                                                                     ' . lines_count . ' Lines'
 endfunction
+
+" ⚠️  ⚠
 
 "
 " PASTE
@@ -73,9 +77,10 @@ endfunction
 " Common typos and improvements
 "
 
-map <c-l> <Esc>:CtrlPBuffer<CR>        " Ctrl+l to switch buffers
+"map <c-l> <Esc>:CtrlPBuffer<CR>        " Ctrl+l to switch buffers
 map <c-f> :Grepper<CR>                 " Ctrl+f to search
 map <Tab> <C-W>w                       " Tab to navigate windows
+nnoremap <Space> zA                    " Toggle current fold
 
 " common typos
 :command WQ wq
@@ -104,6 +109,7 @@ Plugin 'itchyny/vim-gitbranch'
 
 Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-pug'
+Plugin 'wincent/command-t'
 
 "
 " RETIRED PLUGINS AND BUNDLES
@@ -165,6 +171,12 @@ let g:grepper = {
   \ }}
 
 "
+" BUFFERS
+" -------
+"
+map <c-w> :CommandTBuffer<CR>
+
+"
 " NERDTREE
 " --------
 "
@@ -214,6 +226,10 @@ let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 set background=dark                    " Set background
 syntax on                              " Syntax highlighting please
 
+"set synmaxcol=80                         " Stop highlighting at 128 columns
+let &colorcolumn=join(range(81,999),",")
+"let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
+
 if !empty($VIM_COLOR)
   colorscheme $VIM_COLOR
 else
@@ -221,17 +237,11 @@ else
 endif
 
 
-"set synmaxcol=128                      " Stop highlighting at 128 columns
-"let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
-
 "
 " JAVASCRIPT
 " ----------
 "
-"autocmd bufwritepost *.js silent !standard --fix %
-"set autoread
-
-"let g:ale_fixers = {'javascript': ['standard']}
+" let g:ale_fixers = {'javascript': ['standard']}
 let g:ale_fix_on_save = 1
 let g:ale_open_list = 1
 let g:ale_lint_delay = 1500
@@ -241,24 +251,25 @@ let g:ale_linters = {
   \ 'pug': ['pug-lint']
   \}
 
-"let g:syntastic_javascript_checkers = ['standard']
-"autocmd bufwritepost *.js silent !standard --fix index.js % &>/dev/null
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
 set fcs=vert:│
+
+"
+" SCROLL
+" ------
+" Dont scroll past the bottom line
+"
+noremap <ScrollWheelUp> H5k
+noremap <ScrollWheelDown> L5j
 
 "
 " PERF
 " ----
 "
-augroup vimrc
- autocmd!
- autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
-augroup END
+"augroup vimrc
+" autocmd!
+" autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
+"augroup END
 
-set nocursorline
-set nocursorcolumn
+"set nocursorline
+"set nocursorcolumn
 "set lazyredraw
