@@ -14,6 +14,7 @@ common=(
 )
 
 if [ `uname` == 'Darwin' ]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   brew tap mattmezza/mannaggia
   mac=(
     youtube-dl # get songs before they vanishi
@@ -54,3 +55,9 @@ git clone https://github.com/mattmezza/dotfiles.git ~/dotfiles
 
 vim +PluginInstall +qall
 
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
