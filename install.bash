@@ -61,3 +61,5 @@ git config --global alias.ci commit
 git config --global alias.st status
 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
+source ~/.bashrc
+nvm install node
