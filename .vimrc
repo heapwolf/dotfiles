@@ -1,4 +1,3 @@
-
 "               __  __
 "   | / / /\ᐱ  /_/ /
 " o |/ / /  / / \ /__
@@ -33,27 +32,7 @@ set tabstop=2 shiftwidth=2 expandtab   " tabs to spaces
 set smarttab smartindent autoindent    " automigical indenting
 
 set listchars=tab:▸\ ,eol:\            " show special characters
-set fillchars=fold:\                   " fill the foldline with whitespace
-
-"
-" FOLDING BEHAVIOR
-" ----------------
-" Sometimes you need to hide some code
-"
-
-set foldmethod=indent                   " fold based on indent
-set nofoldenable                        " dont fold by default
-"set foldnestmax=1                       " deepest fold
-"set foldlevelstart=1
-"set foldlevel=1                         " this is just what i use
-
-set foldtext=SimpleFold()
-function SimpleFold()
-  let lines_count = v:foldend - v:foldstart + 1
-  return '                                                                     ' . lines_count . ' Lines'
-endfunction
-
-" ⚠️  ⚠
+" set fillchars=fold:\                   " fill the foldline with whitespace
 
 "
 " PASTE
@@ -64,6 +43,10 @@ let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
 
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+if !&readonly && &modifiable
+  set fileencoding=utf-8
+endif
 
 function! XTermPasteBegin()
   set pastetoggle=<Esc>[201~
@@ -76,11 +59,9 @@ endfunction
 " ----------------
 " Common typos and improvements
 "
+noremap ; :
 
-"map <c-l> <Esc>:CtrlPBuffer<CR>        " Ctrl+l to switch buffers
 map <c-f> :Grepper<CR>                 " Ctrl+f to search
-map <Tab> <C-W>w                       " Tab to navigate windows
-nnoremap <Space> zA                    " Toggle current fold
 
 " common typos
 :command WQ wq
@@ -106,10 +87,12 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'w0rp/ale'
 Plugin 'mhinz/vim-grepper'
 Plugin 'itchyny/vim-gitbranch'
+Plugin 'wincent/command-t'
+Plugin 'dart-lang/dart-vim-plugin'
 
 Bundle 'wavded/vim-stylus'
 Bundle 'digitaltoad/vim-pug'
-Plugin 'wincent/command-t'
+Bundle 'keith/swift.vim'
 
 "
 " RETIRED PLUGINS AND BUNDLES
@@ -175,12 +158,41 @@ let g:grepper = {
 " -------
 "
 map <c-w> :CommandTBuffer<CR>
+map <c-c> :CommandTBuffer<CR>
+map <Leader>w :bd<CR>                  " Close the curent buffer
+
+"
+" DISTRACTION FREE
+"
+let s:hidden_all = 0
+function! Quiet()
+    if s:hidden_all  == 0
+        set foldcolumn=12
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        set foldcolumn=0
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+
+    :NERDTreeToggle<CR>
+endfunction
+
+nnoremap <c-a> :call Quiet()<CR>
 
 "
 " NERDTREE
 " --------
 "
 map <Leader>d :NERDTreeToggle<CR>      " Open and close
+map <Tab> :NERDTreeToggle<CR>          " Tab to navigate windows
 let g:NERDTreeUpdateOnWrite = 1        " Update NERDTree on any saves
 autocmd vimenter * NERDTree            " Open NERDTree right away
 let NERDTreeMinimalUI = 1              " But with as few features as possible
@@ -188,7 +200,7 @@ let NERDTreeMinimalUI = 1              " But with as few features as possible
 let g:NERDTreeHighlightCursorline = 0  " Makes nerdtree way faster
 
 "autocmd FileType nerdtree setlocal nocursorline
-let NERDTreeIgnore = ['\/((?!src).)*\/node_modules[[dir]]'] " ignore node_modules (except src/node_modules)
+let NERDTreeIgnore = ['\/((?!src).)*\/node_modules$[[dir]]'] " ignore node_modules (except src/node_modules)
 
 "
 " GIT
@@ -205,6 +217,9 @@ let g:gitgutter_sign_modified_removed = '│'
 let g:NERDTreeGitStatusWithFlags = 0
 let g:NERDTreeGitStatusNodeColorization = 1
 
+let g:NERDTreeDirArrowExpandable = nr2char(8200)
+let g:NERDTreeDirArrowCollapsible = nr2char(8200)
+
 "
 " ICONS
 " -----
@@ -218,6 +233,11 @@ let g:WebDevIconsOS = 'Darwin'
 let g:WebDevIconsUnicodeDecorateFileNodes = 0
 let g:webdevicons_conceal_nerdtree_brackets = 1
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+
+" after a re-source, fix syntax matching issues (concealing brackets):
+if exists('g:loaded_webdevicons')
+  call webdevicons#refresh()
+endif
 
 "
 " COLORS & SYNTAX
@@ -233,7 +253,7 @@ let &colorcolumn=join(range(81,999),",")
 if !empty($VIM_COLOR)
   colorscheme $VIM_COLOR
 else
-  colors transparent-gray                " A custom light theme
+  colors transparent-bluecream                " A custom light theme
 endif
 
 
@@ -248,8 +268,12 @@ let g:ale_lint_delay = 1500
 let g:ale_linters = {
   \ 'javascript': ['standard'],
   \ 'stylus': ['stylint'],
+  \ 'swift': ['swiftlint', 'swiftformat'],
   \ 'pug': ['pug-lint']
   \}
+
+let g:ale_sign_error = '~>'
+let g:ale_sign_warning = '->'
 
 set fcs=vert:│
 
@@ -261,15 +285,3 @@ set fcs=vert:│
 noremap <ScrollWheelUp> H5k
 noremap <ScrollWheelDown> L5j
 
-"
-" PERF
-" ----
-"
-"augroup vimrc
-" autocmd!
-" autocmd BufWinEnter,Syntax * syn sync minlines=500 maxlines=500
-"augroup END
-
-"set nocursorline
-"set nocursorcolumn
-"set lazyredraw
