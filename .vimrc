@@ -1,27 +1,28 @@
-"               __  __
-"   | / / /\ᐱ  /_/ /
-" o |/ / /  / / \ /__
-"
+"               __  __ 
+"   | / / /\ᐱ  /_/ /   
+" o |/ / /  / / \ /__  
+"                      
 
-"
-" GENERAL
-" -------
-"
+"         
+" GENERAL 
+" ------- 
+"         
 
 set autoread                           " check for changes automatically
 au CursorHold * checktime              " reload the changes once idle
 
 set mouse=a                            " enable mouse support
 set backspace=indent,eol,start         " normal backspace behavior
-"set t_Co=256                           " ensure 256 colors
+set t_Co=256                           " ensure 256 colors
 set spelllang=en_us                    " english language spelling
 set noswapfile                         " more trouble than they are worth
 set hidden                             " allow unsaved buffers in background
 set laststatus=2                       " show the status line
 set nowrap                             " dont wrap long lines
 set hlsearch                           " highlight search matches
-"set clipboard=unnamed                 " copy from vim to your mac pasteboard
+set clipboard=unnamed                  " copy from vim to your mac pasteboard
 "set number                            " no line numbers, statusbar is enough
+
 
 "
 " WHITESPACE & SPECIAL CHARACTERS
@@ -59,11 +60,8 @@ endfunction
 " ----------------
 " Common typos and improvements
 "
-noremap ; :
-
+noremap ; :                            " One less key
 map <c-f> :Grepper<CR>                 " Ctrl+f to search
-
-" common typos
 :command WQ wq
 :command Wq wq
 :command W w
@@ -87,12 +85,8 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'w0rp/ale'
 Plugin 'mhinz/vim-grepper'
 Plugin 'itchyny/vim-gitbranch'
-Plugin 'wincent/command-t'
-Plugin 'dart-lang/dart-vim-plugin'
-
+Plugin 'tpope/vim-commentary'
 Bundle 'wavded/vim-stylus'
-Bundle 'digitaltoad/vim-pug'
-Bundle 'keith/swift.vim'
 
 "
 " RETIRED PLUGINS AND BUNDLES
@@ -100,6 +94,10 @@ Bundle 'keith/swift.vim'
 " Stuff I've tried but don't really need.
 "
 
+"Plugin 'wincent/command-t'
+"Plugin 'dart-lang/dart-vim-plugin'
+"Bundle 'digitaltoad/vim-pug'
+"Bundle 'keith/swift.vim'
 "Plugin 'pangloss/vim-javascript'
 "Plugin 'bling/vim-airline'
 "Plugin 'vim-airline/vim-airline-themes'
@@ -135,12 +133,13 @@ call vundle#end()
 "
 " STATUS LINE
 " -----------
-" Airline et al. are too noisy for me, here's my take
+" Airline et al. are too noisy for me, here's my take,
+" commented out the branch since i have that in my tmux bar.
 "
 let &stl="%.50F"
 let &stl.="%=%1*%{&modified ? ' + ' : ''}%0* "
 let &stl.="%l:%c/%L "
-let &stl.="│ %{gitbranch#name()} "
+"let &stl.="│ %{gitbranch#name()} "
 
 "
 " SEARCH
@@ -157,35 +156,9 @@ let g:grepper = {
 " BUFFERS
 " -------
 "
-map <c-w> :CommandTBuffer<CR>
-map <c-c> :CommandTBuffer<CR>
+"map <c-w> :CommandTBuffer<CR>
+"map <c-c> :CommandTBuffer<CR>
 map <Leader>w :bd<CR>                  " Close the curent buffer
-
-"
-" DISTRACTION FREE
-"
-let s:hidden_all = 0
-function! Quiet()
-    if s:hidden_all  == 0
-        set foldcolumn=12
-        let s:hidden_all = 1
-        set noshowmode
-        set noruler
-        set laststatus=0
-        set noshowcmd
-    else
-        set foldcolumn=0
-        let s:hidden_all = 0
-        set showmode
-        set ruler
-        set laststatus=2
-        set showcmd
-    endif
-
-    :NERDTreeToggle<CR>
-endfunction
-
-nnoremap <c-a> :call Quiet()<CR>
 
 "
 " NERDTREE
@@ -200,7 +173,9 @@ let NERDTreeMinimalUI = 1              " But with as few features as possible
 let g:NERDTreeHighlightCursorline = 0  " Makes nerdtree way faster
 
 "autocmd FileType nerdtree setlocal nocursorline
-let NERDTreeIgnore = ['\/((?!src).)*\/node_modules$[[dir]]'] " ignore node_modules (except src/node_modules)
+
+" ignore node_modules (except src/node_modules)
+let NERDTreeIgnore = ['\/((?!src).)*\/node_modules$[[dir]]'] 
 
 "
 " GIT
@@ -262,6 +237,7 @@ endif
 " ----------
 "
 " let g:ale_fixers = {'javascript': ['standard']}
+
 let g:ale_fix_on_save = 1
 let g:ale_open_list = 1
 let g:ale_lint_delay = 1500
@@ -284,4 +260,3 @@ set fcs=vert:│
 "
 noremap <ScrollWheelUp> H5k
 noremap <ScrollWheelDown> L5j
-
