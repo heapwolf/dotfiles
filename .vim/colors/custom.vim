@@ -58,7 +58,7 @@ hi Repeat          ctermfg=8                cterm=bold
 hi SignColumn      ctermbg=1
 hi SpecialChar     ctermfg=8                 cterm=bold
 hi SpecialComment  ctermfg=8                 cterm=bold
-hi Special         ctermbg=8     ctermfg=0
+hi Special         ctermbg=237     ctermfg=2
 
 if has("spell")
    hi SpellBad                   ctermbg=1    ctermfg=15
