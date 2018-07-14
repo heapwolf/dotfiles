@@ -11,9 +11,12 @@
 ```
 
 # USAGE
-`install.bash` is program to install some useful software and copy this repo into place
+`install.bash` is program to install.
 
 ```bash
 bash ./install.bash
 ```
 
+# PREVIEW
+
+![screenshot](./screenshot.png)
