@@ -11,6 +11,7 @@
 set autoread                           " check for changes automatically
 au CursorHold * checktime              " reload the changes once idle
 
+set nocompatible                       " dont care about vi
 set mouse=a                            " enable mouse support
 set backspace=indent,eol,start         " normal backspace behavior
 set t_Co=256                           " ensure 256 colors
@@ -22,6 +23,8 @@ set nowrap                             " dont wrap long lines
 set hlsearch                           " highlight search matches
 set clipboard=unnamed                  " copy from vim to your mac pasteboard
 "set number                            " no line numbers, statusbar is enough
+set wildmode=longest,list,full         " full list menu for tab completion asdfa
+set background=light
 
 
 "
@@ -189,6 +192,13 @@ let g:gitgutter_sign_removed = '│'
 let g:gitgutter_sign_removed_first_line = '│'
 let g:gitgutter_sign_modified_removed = '│'
 
+""
+"" Git Gutter
+""
+highlight link GitGutterAdd DiffAdd
+highlight link GitGutterDelete DiffDelete
+highlight link GitGutterChange DiffChange
+
 let g:NERDTreeGitStatusWithFlags = 0
 let g:NERDTreeGitStatusNodeColorization = 1
 
@@ -218,18 +228,14 @@ endif
 " COLORS & SYNTAX
 " ---------------
 "
-set background=dark                    " Set background
 syntax on                              " Syntax highlighting please
 
-"set synmaxcol=80                         " Stop highlighting at 128 columns
-let &colorcolumn=join(range(81,999),",")
-"let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
+match ErrorMsg '\%>80v.\+'
+" set synmaxcol=80
+" let &colorcolumn=join(range(81,81),",")
+" let &colorcolumn="80,".join(range(128,999),",") " Advise where to stop
 
-if !empty($VIM_COLOR)
-  colorscheme $VIM_COLOR
-else
-  colors transparent-bluecream                " A custom light theme
-endif
+colors custom
 
 
 "
