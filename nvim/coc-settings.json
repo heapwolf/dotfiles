@@ -1,0 +1,10 @@
+{
+  "diagnostic.errorSign": "•",
+  "diagnostic.warningSign": "•",
+  "diagnostic.infoSign": "•",
+  "diagnostic.enableMessage": "jump",
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "tsserver.enableJavascript": true,
+  "javascript.suggestionActions.enabled": false
+}
