@@ -16,7 +16,3 @@
 ```bash
 bash ./install.bash
 ```
-
-# PREVIEW
-
-![screenshot](./screenshot.png)
