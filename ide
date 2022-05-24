@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+COLORS=" --color=fg:-1,bg:-1,hl:#5f87af \
+ --color=fg+:-1,bg+:-1,hl+:#87ff00 \
+ --color=info:-1,prompt:#5fd7ff,pointer:#87ff00 \
+ --color=marker:-1,spinner:#525252,header:#424242"
+
+RND=`jot -r 1 10000000 99999999`
+SESSION="session$RND"
+
+TREE="fzf $COLORS --bind \"enter:execute(echo eval -client client0 edit '{}' | kak -p $SESSION)\" --reverse"
+
+EDITOR="kak -s $SESSION"
+
+tmux split-window -h -l 75%
+tmux send-keys -t 1 "$EDITOR" C-m
+tmux select-pane -t 1 -P 'fg=255,bg=234'
+
+sleep 0.1
+
+tmux send-keys -t 0 "$TREE" C-m
+tmux select-pane -t 0 -P 'fg=255,bg=238'
