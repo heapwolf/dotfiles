@@ -111,9 +111,17 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
+    # family: 'FiraCode Nerd Font'
+    # family: 'TerminessTTF Nerd Font'
+    # family: 'VictorMono Nerd Font'
+    # family: 'ShureTechMono Nerd Font'
+    # family: 'Iosevka Nerd Font'
     family: 'Monoid Nerd Font Mono'
 
     # The `style` can be specified to pick a specific face.
+    # style: Retina
+    # style: Medium
+    # style: Light
     style: Regular
 
   # Bold font face
@@ -157,7 +165,7 @@ font:
   # spacing.
   offset:
     x: 0
-    y: 0
+    y: -1
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the
@@ -314,7 +322,7 @@ font:
 
 colors:
   primary:
-    background: '#3d4752'
+    background: '#1b1b1b'
     foreground: '#8e9091'
 
   cursor:
@@ -405,7 +413,7 @@ colors:
 #selection:
   # This string contains all characters that are used as separators for
   # "semantic words" in Alacritty.
-  #semantic_escape_chars: ",‚îÇ`|:\"' ()[]{}<>\t"
+  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
@@ -416,7 +424,7 @@ colors:
     # Cursor shape
     #
     # Values for `shape`:
-    #   - ‚ñá Block
+    #   - ▇ Block
     #   - _ Underline
     #   - | Beam
     #shape: Block
@@ -522,7 +530,7 @@ colors:
   #       Move the vi mode cursor to the beginning of the hint.
   #enabled:
   # - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-  #           [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^‚ü®‚ü©`]+"
+  #           [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
   #   command: xdg-open
   #   post_processing: true
   #   mouse:
