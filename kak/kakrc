@@ -1,1 +1,56 @@
-colorscheme xyz
+colorscheme transparent
+
+set-option global ui_options terminal_padding_char=\ 
+set-option global tabstop 2
+set-option global indentwidth 2
+set-option global disabled_hooks .*-indent
+set-option global modelinefmt '[%val{bufname} %val{cursor_line}:%val{cursor_char_column}] {{context_info}} {{mode_info}}'
+
+add-highlighter global/ show-matching
+
+# tabs to spaces
+hook global InsertChar \t %{
+	exec -draft h@
+}
+
+hook global BufCreate .*\.(cc|mm|cpp|cxx|C|hh|hpp|hxx|java|H)$ %{
+  set-option buffer filetype cpp
+}
+
+hook global WinSetOption filetype=(c|cpp|hh|mm) %{
+  set-option window lintcmd "cppcheck --language=c++ --enable=warning,style,information --template='{file}:{line}:{column}: {severity}: {message}' --suppress='*:*.h' --suppress='*:*.hh' 2>&1"
+}
+
+hook global RegisterModified '"' %{ nop %sh{
+  case $(uname) in
+    Linux)
+      wl-copy -n "$kak_main_reg_dquote" > /dev/null 2>&1 & ;;
+    Darwin)
+      printf "%s" "$kak_main_reg_dquote" | pbcopy ;;
+  esac
+}}
+
+hook global InsertChar \. %{ try %{
+    exec -draft hH <a-k>,\.<ret> d
+    exec <esc>
+}}
+
+hook global -group kakrc-matching-ranges InsertChar '[[\](){}<>]' %{
+	eval -draft %{
+    try %{
+        exec '<esc>;hm<a-k>..<ret>;'
+        set window show_matching_range %val{timestamp} "%val{selection_desc}|MatchingChar"
+    } catch %{
+        set window show_matching_range 0
+    }
+    hook window -once InsertChar '[^[\](){}<>]' %{
+        set window show_matching_range 0
+    }
+    hook window -once ModeChange .* %{
+        set window show_matching_range 0
+    }
+    hook window -once InsertMove .* %{
+        set window show_matching_range 0
+    }
+  }
+}
