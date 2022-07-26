@@ -29,6 +29,7 @@ set clipboard=unnamed                  " copy from vim to your mac pasteboard
 "set wildmode=longest,list,full        " full list menu for tab completion asdfa
 set background=light
 set signcolumn=number                  " always show it doesnt shift the screen
+set cmdheight=0
 autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
 
 "set tw=80
@@ -307,7 +308,7 @@ let g:nvim_tree_window_picker_exclude = {
 " Dictionary of buffer option names mapped to a list of option values that
 " indicates to the window picker that the buffer's window should not be
 " selectable.
-let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 } " List of filenames that gets highlighted with NvimTreeSpecialFile
+let g:nvim_tree_special_files = {} " List of filenames that gets highlighted with NvimTreeSpecialFile
 let g:nvim_tree_show_icons = {
     \ 'git': 0,
     \ 'folders': 1,
@@ -396,7 +397,7 @@ function! TreeToggle()
   else
     let g:tree_open = 1
     exec "NvimTreeOpen"
-    set winhighlight=Normal:Pmenu,EndOfBuffer:SideBarEndOfBuffer
+    set winhighlight=Normal:PMenu,EndOfBuffer:SideBarEndOfBuffer
   endif
 endfunction
 
@@ -483,4 +484,4 @@ set noshowmode  " to get rid of thing like --INSERT--
 set noshowcmd  " to get rid of display of last command
 set shortmess+=F  " to get rid of the file name displayed in the command line bar
 
-hi NvimTreeFolderIcon guifg=NONE guibg=NONE
+hi NvimTreeFolderIcon guifg=NONE guibg=SideBarEndOfBuffer
